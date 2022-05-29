@@ -1,28 +1,33 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm'
-import { v4 as uuid } from 'uuid'
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from "typeorm";
+import { v4 as uuid } from "uuid";
 
-@Entity("carts")
+@Entity()
 export class Cart {
+  @PrimaryColumn("uuid")
+  readonly id: string;
 
-    @PrimaryColumn('uuid')
-    readonly id: string
+  @Column("float")
+  subtotal: number;
 
-    @Column('float')
-    subtotal: number
+  @CreateDateColumn({
+    name: "created_at",
+  })
+  createdAt: Date;
 
-    @CreateDateColumn({
-        name: "created_at"
-    })
-    createdAt: Date
+  @UpdateDateColumn({
+    name: "updated_at",
+  })
+  updatedAt: Date;
 
-    @UpdateDateColumn({
-        name:"updated_at"
-    })
-    updatedAt: Date
-
-    constructor() {
-        if (!this.id) {
-            this.id = uuid()
-        }
+  constructor() {
+    if (!this.id) {
+      this.id = uuid();
     }
+  }
 }

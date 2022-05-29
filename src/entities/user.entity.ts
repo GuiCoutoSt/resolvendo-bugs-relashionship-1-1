@@ -1,28 +1,42 @@
-import { Entity, Column, PrimaryColumn, CreateDateColumn } from "typeorm"
-import { v4 as uuid } from "uuid"
+import {
+  Entity,
+  Column,
+  PrimaryColumn,
+  CreateDateColumn,
+  OneToOne,
+  JoinColumn,
+} from "typeorm";
+import { v4 as uuid } from "uuid";
+import { Cart } from "./cart.entity";
 
-@Entity("users")
+@Entity()
 export class User {
-    @PrimaryColumn('uuid')
-    readonly id: string
+  @PrimaryColumn("uuid")
+  readonly id: string;
 
-    @Column()
-    name: string
+  @Column()
+  name: string;
 
-    @Column({nullable: true})
-    email: string
+  @Column({ nullable: true })
+  email: string;
 
-    @Column()
-    password: string
+  @Column()
+  password: string;
 
-    @CreateDateColumn({
-        name:"created_at"
-    })
-    createdAt: Date
+  @CreateDateColumn({
+    name: "created_at",
+  })
+  createdAt: Date;
 
-    constructor() {
-        if (!this.id) {
-            this.id = uuid();
-        }
+  @OneToOne((type) => Cart, {
+    eager: true,
+  })
+  @JoinColumn()
+  cart: Cart;
+
+  constructor() {
+    if (!this.id) {
+      this.id = uuid();
     }
+  }
 }
